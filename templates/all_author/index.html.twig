@@ -13,7 +13,7 @@
         /* Style for table headers */
         th {
             border: 2px black solid;
-            background-color: blue; /* Gray background color for headers */
+            background-color: #86c786; /* Gray background color for headers */
             color: white; /* Text color */
             padding: 10px; /* Add padding for better spacing */
         }
@@ -49,11 +49,11 @@
             <td>{{ author.id }}</td>
             <td>{{ author.username |upper}}</td>
             <td>{{ author.email }}</td>
-            <td>{{ author.nb_books }}</td>
+            <td>{{ author.nbBooks }}</td>
             <td>
                 <a href="{{ path('author_details', {'id': author.id}) }}">Show More</a>
             </td>
-            {% set sum = sum+author.nb_books %}
+            {% set sum = sum+author.nbBooks %}
         </tr>
     {% endfor %}
     </tbody>
