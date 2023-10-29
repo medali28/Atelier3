@@ -25,8 +25,8 @@ class BookController extends AbstractController
     #[Route('/all/book', name: 'list_book')]
     public function listBook( Request $request ,BookRepository $repository): Response
     {
-        $book= $repository->find($id);
-        $book->getAuthor()->setNbBooks($book->getAuthor()->getNBBooks() +1);
+//        $book= $repository->find($id);
+//        $book->getAuthor()->setNbBooks($book->getAuthor()->getNBBooks() +1);
         $ref = $request->query->get('ref');
         $books = $repository->findBookbyref($ref);
         if (!$books){
@@ -59,9 +59,9 @@ class BookController extends AbstractController
         return $this->render('book/add.html.twig', ['form' => $form->createView()]);
     }
 
-    #[Route('/update/book/{ref}', name: 'update_book')]
+    #[Route('/update/book/{ref}', name: 'update_book_ref')]
 
-    public function update(Request $request,BookRepository $repository ,int $ref ,  ManagerRegistry $managerRegistry): Response
+    public function updateBookByRef(Request $request,BookRepository $repository ,int $ref ,  ManagerRegistry $managerRegistry): Response
     {
         $em= $managerRegistry->getManager();
         $book = $repository->find($ref);
@@ -80,18 +80,29 @@ class BookController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+    #[Route('/update/book', name: 'update_book')]
+
+    public function updateBook(Request $request,BookRepository $repository  ,  ManagerRegistry $managerRegistry): Response
+    {
+        $book = $repository->modifyBooksCategory();
+        if (!$book){
+            return $this->render('book/error.html.twig');
+        }
+        return $this->redirectToRoute('list_book');
+
+    }
 
     #[Route('/delete/book/{ref}', name: 'delete_book')]
 
     public function delete(Request $request,BookRepository $repository ,int $ref ,  ManagerRegistry $managerRegistry): Response
     {
-        $book = $repository ->find($ref);
+        $book = $repository ->deleteBooksByRef($ref);
         if (!$book){
             return $this->render('book/error.html.twig');
         }
-        $em=$managerRegistry->getManager();
-        $em->remove($book);
-        $em->flush();
+//        $em=$managerRegistry->getManager();
+//        $em->remove($book);
+//        $em->flush();
         return $this->redirecttoRoute("list_book");
 
     }

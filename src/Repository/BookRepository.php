@@ -77,16 +77,24 @@ class BookRepository extends ServiceEntityRepository
 
     public function modifyBooksCategory()
     {
-        return $this->createQueryBuilder('b')
-            ->where('b.category = :category')
-            ->setParameters([
-                'category' => 'Romance',
-            ])
-            ->orderBy('b.title', 'ASC')
-            ->getQuery()
-            ->getResult();
+        return  $this->createQueryBuilder('b')
+        ->update('App:Book', 'b')
+        ->set('b.category', ':newCategory')
+        ->where('b.category = :oldCategory')
+        ->setParameter('newCategory', 'Romance')
+        ->setParameter('oldCategory', 'Science-Fiction')
+        ->getQuery()
+        ->execute();
     }
-
+    public function deleteBooksByRef($ref)
+    {
+        return  $this->createQueryBuilder('b')
+            ->delete('App:Book','b')
+            ->where('b.ref = :ref')
+            ->setParameter('ref', $ref)
+            ->getQuery()
+            ->execute();
+    }
 
 
 //    /**
