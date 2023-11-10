@@ -67,15 +67,15 @@
 {#        {% endfor %}#}
 {#        </tbody>#}
 {#    </table>#}
-{#    <form method="get" action="{{ path('search_author') }}">#}
-{#        <label for="number_min">Number Min:</label>#}
-{#        <input type="number" id="number_min" name="number_min" required>#}
+<form method="get" action="{{ path('search_author') }}">
+    <label for="number_min">Number Min:</label>
+    <input type="number" id="number_min" name="number_min" required>
 
 {#        <label for="number_max">Number Max:</label>#}
 {#        <input type="number" id="number_max" name="number_max" required>#}
 
-{#        <button type="submit">Search</button>#}
-{#    </form>#}
+        <button type="submit">Search</button>
+    </form>
 {#{% endif %}#}
 {#Length of table :{{ authors |length}} <br>#}
 {#Total number of books{{ sum}}#}

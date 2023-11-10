@@ -22,23 +22,21 @@ class BookRepository extends ServiceEntityRepository
         parent::__construct($registry, Book::class);
     }
 
-    public function findBookByName($name)
+    public function findBookByName()
     {
         return $this->createQueryBuilder('b')
-
             ->innerJoin('b.author', 'a')
-            ->where('a.username = :username')
-            ->andWhere('b.pubdate > :pubdate')
-            ->andWhere()
-            ->setParameter('username','fadhila')
-            ->setParameters([
-                'username'=>'med',
-                'pubdate'=>'2023-01-01'
-            ])
-            ->orderBy('b.title', 'DESC')
-            ->getQuery()
-            ->getResult();
 
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+    function SearchAuthorDQL($name){
+        $em=$this->getEntityManager();
+        return $em->createQuery(
+            'select b from App\Entity\Book b JOIN b.author a
+ WHERE a.username LIKE :username')
+            ->setParameter('username',$name)
+            ->getSingleScalarResult();
     }
     public function findBookByDate()
     {
@@ -69,10 +67,9 @@ class BookRepository extends ServiceEntityRepository
             ->setParameters([
                 'username' => $name ,
             ])
-            ->orderBy('b.title', 'ASC')
+            ->orderBy('a.username', 'DESC')
             ->getQuery()
             ->getResult();
-
     }
 
     public function modifyBooksCategory()

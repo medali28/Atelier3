@@ -25,10 +25,10 @@ class BookController extends AbstractController
     #[Route('/all/book', name: 'list_book')]
     public function listBook( Request $request ,BookRepository $repository): Response
     {
-//        $book= $repository->find($id);
-//        $book->getAuthor()->setNbBooks($book->getAuthor()->getNBBooks() +1);
-        $ref = $request->query->get('ref');
-        $books = $repository->findBookbyref($ref);
+
+
+        $books = $repository->SearchAuthorDQL("romdhani");
+//        return new Response($nbbooks);
         if (!$books){
             $books = $repository->findAll();
         }
@@ -40,10 +40,10 @@ class BookController extends AbstractController
     public function addBook(Request $request ,AuthorRepository $repository,EntityManagerInterface $managerRegistry):Response
     {
         $book= new Book();
-        $book->setPublished(0);
         $form = $this->createForm(BookType::class, $book);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $book->setPublished(0);
 //            $nbbook= $book->getAuthor()->getNbBooks();
 //            $book->getAuthor()->setNbBooks($nbbook+1);
             $nameauthor = $book->getAuthor();
