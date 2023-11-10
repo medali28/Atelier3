@@ -24,6 +24,7 @@ class AuthorRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('a')
             ->orderBy('a.email', 'ASC')
+
             ->getQuery()
             ->getResult();
     }
@@ -35,6 +36,13 @@ class AuthorRepository extends ServiceEntityRepository
             ->setParameter(1,$min)
             ->setParameter(2,$max)
             ->getResult();
+    }
+    public function findSUMBooks()
+    {
+        return $this->createQueryBuilder('a')
+            ->select('SUM(a.nb_books)')
+            ->getQuery()
+            ->getSingleScalarResult();
     }
     function SearchAuthorDQLByFirstCaracterName(){
         $em=$this->getEntityManager();

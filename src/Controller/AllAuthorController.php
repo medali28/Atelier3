@@ -25,13 +25,14 @@ class AllAuthorController extends AbstractController
     #[Route('/all/author', name: 'app_all_author')]
     public function index(Request $request ,AuthorRepository $repository): Response
     {
-//        $numberMin = $request->query->get('number_min');
-//        $numberMax = $request->query->get('number_max');
-           $cn = $repository ->SearchAuthorDQLByFirstCaracterName();
+        $numberMin = $request->query->get('number_min');
+        $numberMax = $request->query->get('number_max');
+           $cn = $repository ->findSUMBooks();
+           return new Response($cn);
         //        $authors = $repository ->SearchAuthorDQLByFirstCaracterName();
-        return $this->render('author/index.html.twig', [
-            'authors' => $cn
-        ]);
+//        return $this->render('author/index.html.twig', [
+//            'authors' => $cn
+//        ]);
     }
 
     #[Route('/add/author', name: 'add_author')]
